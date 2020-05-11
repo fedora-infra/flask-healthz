@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "flask-healthz"
+version = "0.0.1"
+description = "A simple module to allow you to easily add health endpoints to your Flask application"
+
+license = "BSD-3-Clause"
+
+authors = [
+  "Fedora Infrastructure <admin@fedoraproject.org>"
+]
+
+readme = 'README.md'
+
+repository = "https://github.com/fedora-infra/flask-healthz"
+homepage = "https://github.com/fedora-infra/flask-healthz"
+
+[tool.poetry.dependencies]
+python = "^3.6"
+Flask = "^1.1.1"
+
+[tool.poetry.dev-dependencies]
+flake8 = "^3.7"
+black = {version = "^19.10b0", allow-prereleases = true}
+bandit = "^1.6.2"
+
+[build-system]
+requires = ["poetry>=1.0.0"]
+build-backend = "poetry.masonry.api"

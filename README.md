@@ -7,39 +7,56 @@ Define endpoints in your Flask application that Kubernetes can use as
 
 Register the blueprint on your Flask application:
 
-    from flask import Flask
-    from flask_healthz import healthz
+```python
+from flask import Flask
+from flask_healthz import healthz
 
-    app = Flask(__name__)
-    app.register_blueprint(healthz, url_prefix="/healthz")
+app = Flask(__name__)
+app.register_blueprint(healthz, url_prefix="/healthz")
+```
 
 Define the functions you want to use to check health. To signal an error, raise `flask_healthz.HealthError`.
 
-    from flask_healthz import HealthError
+```python
+from flask_healthz import HealthError
 
-    def liveness():
-        pass
+def liveness():
+    pass
 
-    def readiness():
-        try:
-            connect_database()
-        except Exception:
-            raise HealthError("Can't connect to the database")
+def readiness():
+    try:
+        connect_database()
+    except Exception:
+        raise HealthError("Can't connect to the database")
+```
 
 Now point to those functions in the Flask configuration:
 
-    HEALTHZ = {
-        "live": "yourapp.checks.liveness",
-        "ready": "yourapp.checks.readiness",
-    }
+```python
+HEALTHZ = {
+    "live": "yourapp.checks.liveness",
+    "ready": "yourapp.checks.readiness",
+}
+```
 
 It is possible to directly set callables in the configuration, so you could write something like:
 
-    HEALTHZ = {
-        "live": lambda: None,
-    }
+```python
+HEALTHZ = {
+    "live": lambda: None,
+}
+```
 
-And now your can configure Kubernetes to check for those endpoints.
+Check that the endpoints actually work:
+
+```
+$ curl http://localhost/yourapp/healthz/live
+OK
+$ curl http://localhost/yourapp/healthz/ready
+OK
+```
+
+Now your can configure Kubernetes to check for those endpoints.
 
 ## License
 

@@ -9,7 +9,7 @@ class HealthError(Exception):
 healthz = Blueprint("healthz", __name__)
 
 
-@healthz.rule("/<name>")
+@healthz.route("/<name>")
 def check(name):
     try:
         check_function = current_app.config["HEALTHZ"][name]
@@ -27,6 +27,6 @@ def check(name):
     try:
         check_function()
     except HealthError as e:
-        return str(e), 503
+        return "{}\n".format(e), 503
     else:
         return "OK\n"

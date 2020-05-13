@@ -56,7 +56,32 @@ $ curl http://localhost/yourapp/healthz/ready
 OK
 ```
 
-Now your can configure Kubernetes to check for those endpoints.
+Now your can configure Kubernetes or OpenShift to check for those endpoints.
+Here's an example of how you could do that in OpenShift's `deploymentconfig`:
+
+```yaml
+kind: DeploymentConfig
+spec:
+  [...]
+  template:
+    [...]
+    spec:
+      containers:
+      - name: yourapp
+        [...]
+        livenessProbe:
+          httpGet:
+            path: /healthz/live
+            port: 8080
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
+        readinessProbe:
+          httpGet:
+            path: /healthz/ready
+            port: 8080
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
+```
 
 ## License
 

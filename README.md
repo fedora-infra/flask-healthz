@@ -83,6 +83,14 @@ spec:
           timeoutSeconds: 1
 ```
 
+## Examples
+
+Here are some projects that have setup flask-healthz:
+
+- Noggin: https://github.com/fedora-infra/noggin/pull/287
+- FASJSON: https://github.com/fedora-infra/fasjson/pull/81
+
+
 ## License
 
 Copyright 2020 Red Hat

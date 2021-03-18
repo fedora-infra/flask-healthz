@@ -30,3 +30,10 @@ def check(name):
         return "{}\n".format(e), 503
     else:
         return "OK\n"
+
+
+# Basic Talisman support: we don't want this view to redirect to HTTPS
+check.talisman_view_options = {"force_https": False}
+# (another way to get the same result would be to do this in your own code:
+# talisman(force_https=False)(app.view_functions["healthz.check"])
+# https://github.com/GoogleCloudPlatform/flask-talisman#per-view-options

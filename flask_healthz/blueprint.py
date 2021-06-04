@@ -24,12 +24,16 @@ def check(name):
                 500, "The {} check function could not be imported".format(name),
             )
 
+    mime_type = "text/plain"
+
     try:
         check_function()
     except HealthError as e:
-        return "{}\n".format(e), 503
+        return current_app.response_class(
+            "{}\n".format(e), status=503, mimetype=mime_type
+        )
     else:
-        return "OK\n"
+        return current_app.response_class("OK\n", mimetype=mime_type)
 
 
 # Basic Talisman support: we don't want this view to redirect to HTTPS

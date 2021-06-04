@@ -22,6 +22,35 @@ Flask = [">=0.12", "<2.0.0"]
 flake8 = "^3.7"
 black = {version = "^19.10b0", allow-prereleases = true}
 bandit = "^1.6.2"
+pytest = "^6.2.4"
+coverage = {extras = ["toml"], version = "^5.5"}
+pytest-cov = "^2.12.1"
+
+[tool.pytest.ini_options]
+testpaths = [
+    "flask_healthz/tests",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["flask_healthz"]
+
+[tool.coverage.paths]
+source = [
+   "flask_healthz",
+   ".tox/*/site-packages/flask_healthz",
+]
+
+[tool.coverage.report]
+fail_under = 100
+exclude_lines = [
+    "pragma: no cover",
+    "if __name__ == .__main__.:",
+]
+omit = [
+    "flask_healthz/tests/*",
+    "flask_healthz/__init__.py",
+]
 
 [build-system]
 requires = ["poetry>=1.0.0"]

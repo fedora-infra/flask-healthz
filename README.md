@@ -5,6 +5,8 @@ Define endpoints in your Flask application that Kubernetes can use as
 
 ## Setting it up
 
+### Blueprint
+
 Register the blueprint on your Flask application:
 
 ```python
@@ -57,6 +59,31 @@ OK
 ```
 
 Now your can configure Kubernetes or OpenShift to check for those endpoints.
+
+### Extension
+
+You can also use the provided Flask extension to register the `healthz` blueprint:
+
+```
+from flask import Flask
+from flask_healthz import Healthz
+
+app = Flask(__name__)
+Healthz(app)
+```
+
+The rest of the configuration is identical.
+
+The extension has an additional option, `no_log`, that can disable logging of the HTTP requests
+handled by your healthz endpoints, to avoid cluttering your web log files with automated requests.
+At the moment, only the [gunicorn](https://gunicorn.org/) web server is supported.
+
+```
+Healthz(app, no_log=True)
+```
+
+## Examples
+
 Here's an example of how you could do that in OpenShift's `deploymentconfig`:
 
 ```yaml
@@ -83,13 +110,10 @@ spec:
           timeoutSeconds: 1
 ```
 
-## Examples
-
-Here are some projects that have setup flask-healthz:
+Some projects that have setup flask-healthz:
 
 - Noggin: https://github.com/fedora-infra/noggin/pull/287
 - FASJSON: https://github.com/fedora-infra/fasjson/pull/81
-
 
 ## License
 

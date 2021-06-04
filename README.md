@@ -3,6 +3,7 @@
 Define endpoints in your Flask application that Kubernetes can use as
 [liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/).
 
+
 ## Setting it up
 
 ### Blueprint
@@ -53,9 +54,9 @@ Check that the endpoints actually work:
 
 ```
 $ curl http://localhost/yourapp/healthz/live
-OK
+{"status": 200, "title": "OK"}
 $ curl http://localhost/yourapp/healthz/ready
-OK
+{"status": 200, "title": "OK"}
 ```
 
 Now your can configure Kubernetes or OpenShift to check for those endpoints.
@@ -115,8 +116,12 @@ Some projects that have setup flask-healthz:
 - Noggin: https://github.com/fedora-infra/noggin/pull/287
 - FASJSON: https://github.com/fedora-infra/fasjson/pull/81
 
+
 ## License
 
 Copyright 2020-2021 Red Hat
 
 Flask-Healthz is licensed under the same license as Flask itself: BSD 3-clause.
+
+
+[![codecov](https://codecov.io/gh/fedora-infra/flask-healthz/branch/dev/graph/badge.svg?token=lwlZLiSImq)](https://codecov.io/gh/fedora-infra/flask-healthz)

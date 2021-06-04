@@ -64,7 +64,7 @@ Now your can configure Kubernetes or OpenShift to check for those endpoints.
 
 You can also use the provided Flask extension to register the `healthz` blueprint:
 
-```
+```python
 from flask import Flask
 from flask_healthz import Healthz
 
@@ -78,13 +78,13 @@ The extension has an additional option, `no_log`, that can disable logging of th
 handled by your healthz endpoints, to avoid cluttering your web log files with automated requests.
 At the moment, only the [gunicorn](https://gunicorn.org/) web server is supported.
 
-```
+```python
 Healthz(app, no_log=True)
 ```
 
 ## Examples
 
-Here's an example of how you could do that in OpenShift's `deploymentconfig`:
+Here's an example of how you could use flask-healthz in OpenShift's `deploymentconfig`:
 
 ```yaml
 kind: DeploymentConfig
@@ -117,6 +117,6 @@ Some projects that have setup flask-healthz:
 
 ## License
 
-Copyright 2020 Red Hat
+Copyright 2020-2021 Red Hat
 
 Flask-Healthz is licensed under the same license as Flask itself: BSD 3-clause.

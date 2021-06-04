@@ -17,21 +17,17 @@ def test_bp(blueprint, app):
     with app.test_client() as client:
         response = client.get("/live")
         assert response.status_code == 200
-        assert response.content_type == "text/plain; charset=utf-8"
-        assert response.get_data(as_text=True) == "OK\n"
+        assert response.content_type == "application/problem+json"
+        assert response.get_json() == {"status": 200, "title": "OK"}
 
 
 def test_bp_no_endpoint(blueprint, app):
     with app.test_client() as client:
         response = client.get("/nowhere")
         assert response.status_code == 404
-        assert response.content_type == "text/html; charset=utf-8"
-        expected = """<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
-<title>404 Not Found</title>
-<h1>Not Found</h1>
-<p>The nowhere check endpoint is not setup</p>
-"""
-        assert response.get_data(as_text=True) == expected
+        assert response.content_type == "application/problem+json"
+        expected = {"status": 404, "title": "The nowhere check endpoint is not setup"}
+        assert response.get_json() == expected
 
 
 def test_bp_bad_endpoint(blueprint, app):
@@ -39,13 +35,12 @@ def test_bp_bad_endpoint(blueprint, app):
     with app.test_client() as client:
         response = client.get("/live")
         assert response.status_code == 500
-        assert response.content_type == "text/html; charset=utf-8"
-        expected = """<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
-<title>500 Internal Server Error</title>
-<h1>Internal Server Error</h1>
-<p>The live check function could not be imported</p>
-"""
-        assert response.get_data(as_text=True) == expected
+        assert response.content_type == "application/problem+json"
+        expected = {
+            "status": 500,
+            "title": "The live check function could not be imported",
+        }
+        assert response.get_json() == expected
 
 
 def test_bp_fail(blueprint, app):
@@ -53,6 +48,6 @@ def test_bp_fail(blueprint, app):
     with app.test_client() as client:
         response = client.get("/live")
         assert response.status_code == 503
-        assert response.content_type == "text/plain; charset=utf-8"
-        expected = "This is failing.\n"
-        assert response.get_data(as_text=True) == expected
+        assert response.content_type == "application/problem+json"
+        expected = {"status": 503, "title": "This is failing."}
+        assert response.get_json() == expected

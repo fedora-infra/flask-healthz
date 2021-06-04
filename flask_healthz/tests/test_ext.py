@@ -9,8 +9,7 @@ def test_ext(app):
     with app.test_client() as client:
         response = client.get("/healthz/live")
         assert response.status_code == 200
-        assert response.content_type == "text/plain; charset=utf-8"
-        assert response.get_data(as_text=True) == "OK\n"
+        assert response.get_json() == {"status": 200, "title": "OK"}
 
 
 def test_ext_deferred_init(app):
@@ -20,7 +19,7 @@ def test_ext_deferred_init(app):
     with app.test_client() as client:
         response = client.get("/healthz/live")
         assert response.status_code == 200
-        assert response.get_data(as_text=True) == "OK\n"
+        assert response.get_json() == {"status": 200, "title": "OK"}
 
 
 def test_ext_no_log(app, caplog):

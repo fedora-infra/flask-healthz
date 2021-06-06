@@ -1,6 +1,7 @@
 import logging
 
 import pytest
+
 from flask_healthz import Healthz
 
 

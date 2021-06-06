@@ -18,6 +18,12 @@ repos:
     hooks:
       - id: flake8
 
+  - repo: https://github.com/pycqa/isort
+    rev: 5.8.0
+    hooks:
+      - id: isort
+        args: ["-c"]
+
   - repo: https://github.com/Lucas-C/pre-commit-hooks-bandit
     rev: v1.0.5
     hooks:

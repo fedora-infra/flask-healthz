@@ -1,4 +1,5 @@
 import pytest
+
 from flask_healthz import HealthError, healthz
 
 

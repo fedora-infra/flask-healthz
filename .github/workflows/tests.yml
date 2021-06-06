@@ -22,7 +22,7 @@ jobs:
         tox_env:
           - lint
           - format
-          - bandit
+          - security
     runs-on: ubuntu-latest
 
   unit_test:

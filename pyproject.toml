@@ -27,6 +27,7 @@ coverage = {extras = ["toml"], version = "^5.5"}
 pytest-cov = "^2.12.1"
 pre-commit = "^2.13.0"
 isort = "^5.8.0"
+safety = "^1.10.3"
 
 [tool.pytest.ini_options]
 testpaths = [

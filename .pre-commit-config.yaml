@@ -36,3 +36,4 @@ repos:
     hooks:
       - id: python-safety-dependencies-check
         alias: safety
+        additional_dependencies: ["poetry"]

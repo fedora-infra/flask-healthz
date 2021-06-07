@@ -16,7 +16,7 @@ homepage = "https://github.com/fedora-infra/flask-healthz"
 
 [tool.poetry.dependencies]
 python = "^3.6.1"
-Flask = [">=0.12", "<2.0.0"]
+flask = "^1.1"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^3.7"

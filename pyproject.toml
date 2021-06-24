@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "flask-healthz"
-version = "0.0.2"
+version = "0.0.3"
 description = "A simple module to allow you to easily add health endpoints to your Flask application"
 
 license = "BSD-3-Clause"

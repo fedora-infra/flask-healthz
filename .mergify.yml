@@ -22,7 +22,7 @@ pull_request_rules:
     conditions:
       - label!=no-mergify
       - -draft
-      - approved-reviews-by=@fedora-infra/team
+      - approved-reviews-by=@fedora-infra/fedora-infrastructure-developers
       - "#changes-requested-reviews-by=0"
       - check-success=Misc tests (lint)
       - check-success=Misc tests (format)

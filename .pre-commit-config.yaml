@@ -7,7 +7,7 @@ repos:
   #         - --py36-plus
 
   - repo: https://github.com/psf/black
-    rev: 21.12b0
+    rev: 22.3.0
     hooks:
       - id: black
         language_version: python3
@@ -25,14 +25,14 @@ repos:
         args: ["-c"]
 
   - repo: https://github.com/Lucas-C/pre-commit-hooks-bandit
-    rev: v1.0.5
+    rev: v1.0.6
     hooks:
       - id: python-bandit-vulnerability-check
         alias: bandit
         args: ["-r", "flask_healthz/", "-ll"]
 
   - repo: https://github.com/Lucas-C/pre-commit-hooks-safety
-    rev: v1.2.3
+    rev: v1.2.4
     hooks:
       - id: python-safety-dependencies-check
         alias: safety

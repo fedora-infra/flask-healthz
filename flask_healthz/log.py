@@ -3,7 +3,7 @@ class PrefixFilter:
         self.prefix = prefix
 
     # gunicorn seems to be using both int and str for status codes
-    SUCCESS_STATUS = (200, '200')
+    SUCCESS_STATUS = (200, "200")
 
     def filter(self, record):
         url = None

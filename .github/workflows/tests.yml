@@ -43,8 +43,9 @@ jobs:
     strategy:
       matrix:
         tox_env:
-          - py36
           - py37
           - py38
           - py39
+          - py310
+          - flask1
     runs-on: ubuntu-latest

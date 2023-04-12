@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Run tests
-        uses: fedora-python/tox-github-action@master
+        uses: fedora-python/tox-github-action@main
         with:
           tox_env: ${{ matrix.tox_env }}
     strategy:
@@ -30,7 +30,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Run tests
-        uses: fedora-python/tox-github-action@master
+        uses: fedora-python/tox-github-action@main
         with:
           tox_env: ${{ matrix.tox_env }}
       - name: Upload coverage to Codecov

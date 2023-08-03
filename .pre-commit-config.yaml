@@ -7,14 +7,14 @@ repos:
   #         - --py36-plus
 
   - repo: https://github.com/psf/black
-    rev: 23.3.0
+    rev: 23.7.0
     hooks:
       - id: black
         language_version: python3
         args: ["--check"]
 
   - repo: https://github.com/pycqa/flake8
-    rev: 6.0.0
+    rev: 6.1.0
     hooks:
       - id: flake8
 
@@ -32,7 +32,7 @@ repos:
         args: ["-r", "flask_healthz/", "-ll"]
 
   - repo: https://github.com/Lucas-C/pre-commit-hooks-safety
-    rev: v1.3.1
+    rev: v1.3.2
     hooks:
       - id: python-safety-dependencies-check
         alias: safety

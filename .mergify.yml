@@ -33,25 +33,6 @@ pull_request_rules:
       - check-success=Unit tests (py310)
       - check-success=Unit tests (flask1)
 
-  - name: Merge Dependabot PRs
-    actions:
-      queue:
-        name: default
-        method: rebase
-    conditions:
-      - label!=no-mergify
-      - -draft
-      - author=dependabot[bot]
-      - approved-reviews-by=github-actions[bot]
-      - "#changes-requested-reviews-by=0"
-      - check-success=Misc tests (lint)
-      - check-success=Misc tests (format)
-      - check-success=Misc tests (security)
-      - check-success=Unit tests (py37)
-      - check-success=Unit tests (py38)
-      - check-success=Unit tests (py39)
-      - check-success=Unit tests (py310)
-      - check-success=Unit tests (flask1)
 
   # Pre-commit autoupdates. Don't expect the CI to have run for this one:
   # https://docs.github.com/en/actions/learn-github-actions/events-that-trigger-workflows#triggering-new-workflows-using-a-personal-access-token

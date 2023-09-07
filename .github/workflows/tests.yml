@@ -12,7 +12,7 @@ jobs:
   misc_tests:
     name: Misc tests
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Run tests
         uses: fedora-python/tox-github-action@main
         with:
@@ -28,7 +28,7 @@ jobs:
   unit_test:
     name: Unit tests
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Run tests
         uses: fedora-python/tox-github-action@main
         with:

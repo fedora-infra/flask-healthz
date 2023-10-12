@@ -1,11 +1,17 @@
 changelog:
+  exclude:
+    labels:
+      - dependencies
   categories:
-    - title: Changes
+    - title: Breaking Changes
+      labels:
+        - breaking-change
+    - title: New features
+      labels:
+        - enhancement
+    - title: Fixes
+      labels:
+        - bug
+    - title: Misc Changes
       labels:
         - '*'
-      exclude:
-        labels:
-          - dependencies
-    - title: Dependencies
-      labels:
-        - dependencies

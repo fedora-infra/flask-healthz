@@ -1,0 +1,152 @@
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+
+name: Run Tox tests
+
+jobs:
+  tests-misc:
+    name: Misc tests 🚦
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run tests
+        uses: fedora-python/tox-github-action@main
+        with:
+          tox_env: ${{ matrix.tox_env }}
+    strategy:
+      matrix:
+        tox_env:
+          - lint
+          - format
+          - security
+    runs-on: ubuntu-latest
+
+  tests-unit:
+    name: Unit tests 🚦
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run tests
+        uses: fedora-python/tox-github-action@main
+        with:
+          tox_env: ${{ matrix.tox_env }}
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          name: ${{ matrix.tox_env }}
+          flags: unittests
+          env_vars: PYTHON
+          fail_ci_if_error: true
+    strategy:
+      matrix:
+        tox_env:
+          - py37
+          - py38
+          - py39
+          - py310
+          - flask1
+    runs-on: ubuntu-latest
+
+  # https://packaging.python.org/en/latest/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/
+  build:
+    name: Build distribution 📦
+    runs-on: ubuntu-latest
+    needs:
+      - tests-unit
+      - tests-misc
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+      - name: Install pypa/build
+        run: python3 -m pip install build --user
+      - name: Build a binary wheel and a source tarball
+        run: python3 -m build
+      - name: Store the distribution packages
+        uses: actions/upload-artifact@v3
+        with:
+          name: python-package-distributions
+          path: dist/
+
+  publish-to-pypi:
+    name: Publish to PyPI 🚀
+    if: startsWith(github.ref, 'refs/tags/') && !contains(github.ref, 'rc')  # only publish to PyPI on final tag pushes
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/flask-healthz
+    permissions:
+      id-token: write  # IMPORTANT: mandatory for trusted publishing
+    steps:
+      - name: Download all the dists
+        uses: actions/download-artifact@v3
+        with:
+          name: python-package-distributions
+          path: dist/
+      - name: Publish distribution to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+
+  github-release:
+    name: Sign with Sigstore and upload to GitHub Release
+    needs:
+      - publish-to-pypi
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write  # IMPORTANT: mandatory for making GitHub Releases
+      id-token: write  # IMPORTANT: mandatory for sigstore
+
+    steps:
+      - name: Download all the dists
+        uses: actions/download-artifact@v3
+        with:
+          name: python-package-distributions
+          path: dist/
+      - name: Sign the dists with Sigstore
+        uses: sigstore/gh-action-sigstore-python@v2
+        with:
+          inputs: >-
+            ./dist/*.tar.gz
+            ./dist/*.whl
+      - name: Upload artifact signatures to GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        # Upload to GitHub Release using the `gh` CLI.
+        # `dist/` contains the built packages, and the
+        # sigstore-produced signatures and certificates.
+        run: >-
+          gh release upload
+          '${{ github.ref_name }}' dist/**
+          --repo '${{ github.repository }}'
+
+  publish-to-testpypi:
+    name: Publish to TestPyPI 🧪
+    if: startsWith(github.ref, 'refs/tags/') && contains(github.ref, 'rc')  # only publish to TestPyPI on rc tag pushes
+    needs:
+      - build
+    runs-on: ubuntu-latest
+
+    environment:
+      name: testpypi
+      url: https://test.pypi.org/p/flask-healthz
+
+    permissions:
+      id-token: write  # IMPORTANT: mandatory for trusted publishing
+
+    steps:
+    - name: Download all the dists
+      uses: actions/download-artifact@v3
+      with:
+        name: python-package-distributions
+        path: dist/
+    - name: Publish distribution to TestPyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        repository-url: https://test.pypi.org/legacy/

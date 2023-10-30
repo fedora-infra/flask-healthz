@@ -39,11 +39,12 @@ jobs:
     strategy:
       matrix:
         tox_env:
-          - py37
           - py38
           - py39
           - py310
+          - py311
           - flask1
+          - flask2
     runs-on: ubuntu-latest
 
   # https://packaging.python.org/en/latest/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/

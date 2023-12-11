@@ -29,13 +29,6 @@ jobs:
         uses: fedora-python/tox-github-action@main
         with:
           tox_env: ${{ matrix.tox_env }}
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
-        with:
-          name: ${{ matrix.tox_env }}
-          flags: unittests
-          env_vars: PYTHON
-          fail_ci_if_error: true
     strategy:
       matrix:
         tox_env:

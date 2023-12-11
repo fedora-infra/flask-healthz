@@ -7,28 +7,39 @@ name: Run Tox tests
 jobs:
   tests-misc:
     name: Misc tests 🚦
+    runs-on: ubuntu-latest
+    container: fedorapython/fedora-python-tox:latest
     steps:
       - uses: actions/checkout@v4
-      - name: Run tests
-        uses: fedora-python/tox-github-action@main
-        with:
-          tox_env: ${{ matrix.tox_env }}
+      - name: Install dependencies
+        run: |
+          dnf install -y git
+          pip install poetry>=1.2
+      - name: Mark the working directory as safe for Git
+        run: git config --global --add safe.directory $PWD
+      - name: Run the tests
+        run: tox -e ${{ matrix.tox_env }}
     strategy:
       matrix:
         tox_env:
           - lint
           - format
           - security
-    runs-on: ubuntu-latest
 
   tests-unit:
     name: Unit tests 🚦
+    runs-on: ubuntu-latest
+    container: fedorapython/fedora-python-tox:latest
     steps:
       - uses: actions/checkout@v4
-      - name: Run tests
-        uses: fedora-python/tox-github-action@main
-        with:
-          tox_env: ${{ matrix.tox_env }}
+      - name: Install dependencies
+        run: |
+          dnf install -y git
+          pip install poetry>=1.2
+      - name: Mark the working directory as safe for Git
+        run: git config --global --add safe.directory $PWD
+      - name: Run the tests
+        run: tox -e ${{ matrix.tox_env }}
     strategy:
       matrix:
         tox_env:
@@ -38,7 +49,6 @@ jobs:
           - py311
           - flask1
           - flask2
-    runs-on: ubuntu-latest
 
   # https://packaging.python.org/en/latest/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/
   build:

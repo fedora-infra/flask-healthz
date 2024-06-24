@@ -124,4 +124,7 @@ Copyright 2020-2021 Red Hat
 Flask-Healthz is licensed under the same license as Flask itself: BSD 3-clause.
 
 
+![PyPI](https://img.shields.io/pypi/v/flask-healthz.svg)
+![Supported Python versions](https://img.shields.io/pypi/pyversions/flask-healthz.svg)
+![Build status](https://github.com/fedora-infra/flask-healthz/actions/workflows/main.yml/badge.svg?branch=develop)
 [![codecov](https://codecov.io/gh/fedora-infra/flask-healthz/branch/dev/graph/badge.svg?token=lwlZLiSImq)](https://codecov.io/gh/fedora-infra/flask-healthz)

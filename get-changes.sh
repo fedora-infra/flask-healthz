@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# SPDX-FileCopyrightText: 2020-2024 Red Hat
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
 set -e
 
 last_tag="$1"

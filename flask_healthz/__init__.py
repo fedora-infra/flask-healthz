@@ -1,2 +1,6 @@
-from .blueprint import HealthError, healthz  # noqa: F401
-from .ext import Healthz  # noqa: F401
+# SPDX-FileCopyrightText: 2020-2024 Red Hat
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
+from .blueprint import HealthError, healthz
+from .ext import Healthz

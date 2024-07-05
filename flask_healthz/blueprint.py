@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2020-2024 Red Hat
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
 from flask import Blueprint, current_app
 from flask.json import dumps
 from werkzeug.utils import import_string
@@ -23,15 +27,13 @@ def check(name):
     try:
         check_function = current_app.config["HEALTHZ"][name]
     except KeyError:
-        return _make_response(404, "The {} check endpoint is not setup".format(name))
+        return _make_response(404, f"The {name} check endpoint is not setup")
 
     if not callable(check_function):
         try:
             check_function = import_string(check_function)
         except ImportError:
-            return _make_response(
-                500, "The {} check function could not be imported".format(name)
-            )
+            return _make_response(500, f"The {name} check function could not be imported")
 
     try:
         check_function()

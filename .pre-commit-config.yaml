@@ -10,32 +10,16 @@ repos:
     rev: 24.4.2
     hooks:
       - id: black
-        language_version: python3
-        args: ["--check"]
 
-  - repo: https://github.com/pycqa/flake8
-    rev: 7.1.0
+  # Ruff
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    # Ruff version.
+    rev: v0.5.0
     hooks:
-      - id: flake8
+      - id: ruff
 
-  - repo: https://github.com/pycqa/isort
-    rev: 5.13.2
+  # License headers
+  - repo: https://github.com/fsfe/reuse-tool
+    rev: v3.0.2
     hooks:
-      - id: isort
-        args: ["-c"]
-
-  - repo: https://github.com/Lucas-C/pre-commit-hooks-bandit
-    rev: v1.0.6
-    hooks:
-      - id: python-bandit-vulnerability-check
-        alias: bandit
-        args: ["-r", "flask_healthz/", "-ll"]
-
-  - repo: https://github.com/Lucas-C/pre-commit-hooks-safety
-    rev: v1.3.3
-    hooks:
-      - id: python-safety-dependencies-check
-        alias: safety
-        additional_dependencies: ["poetry"]
-        args: ["--ignore=70612"]
-        # 70612: CVE-2019-8341
+      - id: reuse

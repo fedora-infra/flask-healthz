@@ -14,24 +14,44 @@ readme = 'README.md'
 repository = "https://github.com/fedora-infra/flask-healthz"
 homepage = "https://github.com/fedora-infra/flask-healthz"
 
+include = [
+    { path = "tox.ini", format = "sdist" },
+    { path = "tests", format = "sdist" },
+]
+
 [tool.poetry.dependencies]
 python = "^3.8.0"
 flask = "^2.0.0 || ^3.0.0"
 
-[tool.poetry.dev-dependencies]
-flake8 = "*"
+[tool.poetry.group.dev.dependencies]
 black = "*"
-bandit = "*"
 pytest = "*"
 coverage = {extras = ["toml"], version = "*"}
 pytest-cov = "*"
 pre-commit = "*"
-isort = "*"
-safety = "*"
+ruff = "*"
+
+[tool.black]
+line-length = 100
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "S", "B", "RUF"]
+ignore = ["RUF012"]
+
+[tool.ruff.lint.isort]
+lines-after-imports = 2
+order-by-type = false
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101", "E501"]
+"flask_healthz/__init__.py" = ["F401"]
 
 [tool.pytest.ini_options]
 testpaths = [
-    "flask_healthz/tests",
+    "tests",
 ]
 
 [tool.coverage.run]
@@ -49,16 +69,16 @@ fail_under = 100
 exclude_lines = [
     "pragma: no cover",
     "if __name__ == .__main__.:",
+    # Don't complain if tests don't hit defensive assertion code
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "\\.\\.\\.",
 ]
 omit = [
-    "flask_healthz/tests/*",
+    "tests/*",
     "flask_healthz/__init__.py",
 ]
 
-[tool.isort]
-profile = "black"
-lines_after_imports = 2
-force_alphabetical_sort_within_sections = true
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

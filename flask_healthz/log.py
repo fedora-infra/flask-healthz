@@ -1,3 +1,8 @@
+# SPDX-FileCopyrightText: 2020-2024 Red Hat
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
+
 class PrefixFilter:
     def __init__(self, prefix):
         self.prefix = prefix

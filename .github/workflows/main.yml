@@ -1,8 +1,16 @@
+name: Test & Build
+
 on:
   push:
+    branches:
+      - develop
+      - stable
+    tags:
+      - v*
   pull_request:
-
-name: Run Tox tests
+    branches:
+      - develop
+      - stable
 
 jobs:
   tests-misc:
@@ -14,7 +22,7 @@ jobs:
       - name: Install dependencies
         run: |
           dnf install -y git
-          pip install poetry>=1.2
+          pip install poetry
       - name: Mark the working directory as safe for Git
         run: git config --global --add safe.directory $PWD
       - name: Run the tests
@@ -23,8 +31,6 @@ jobs:
       matrix:
         tox_env:
           - lint
-          - format
-          - security
 
   tests-unit:
     name: Unit tests 🚦
@@ -35,28 +41,29 @@ jobs:
       - name: Install dependencies
         run: |
           dnf install -y git
-          pip install poetry>=1.2
+          pip install poetry
       - name: Mark the working directory as safe for Git
         run: git config --global --add safe.directory $PWD
       - name: Run the tests
-        run: tox -e ${{ matrix.tox_env }}
+        run: tox -e ${{ matrix.pyver }}-${{ matrix.flaskver }}
     strategy:
       matrix:
-        tox_env:
+        pyver:
           - py38
           - py39
           - py310
           - py311
-          - flask1
+        flaskver:
           - flask2
+          - flask3
 
   # https://packaging.python.org/en/latest/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/
   build:
     name: Build distribution 📦
     runs-on: ubuntu-latest
     needs:
-      - tests-unit
       - tests-misc
+      - tests-unit
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
@@ -97,6 +104,7 @@ jobs:
     name: Create a GitHub Release 📢
     needs:
       - publish-to-pypi
+      - build
     runs-on: ubuntu-latest
 
     permissions:

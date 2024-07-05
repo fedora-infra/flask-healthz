@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2020-2024 Red Hat
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
 from flask_healthz import Healthz
 
 

@@ -49,10 +49,11 @@ jobs:
     strategy:
       matrix:
         pyver:
-          - py38
-          - py39
           - py310
           - py311
+          - py312
+          - py313
+          - py314
         flaskver:
           - flask2
           - flask3
